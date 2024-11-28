@@ -1,0 +1,40 @@
+package frontiere;
+
+import java.util.Scanner;
+
+import controleur.ControlAcheterProduit;
+
+public class BoundaryAcheterProduit {
+	private Scanner scan = new Scanner(System.in);
+	private ControlAcheterProduit controlAcheterProduit;
+
+	public BoundaryAcheterProduit(ControlAcheterProduit controlAcheterProduit) {
+		this.controlAcheterProduit = controlAcheterProduit;
+	}
+
+	public void acheterProduit(String nomAcheteur) {
+		if(!controlAcheterProduit.isResident(nomAcheteur)) {
+			System.out.println("Il faut être résident pour pouvoir acheter un produit");
+		}
+		else {
+			System.out.println("Quel produit souhaitez-vous acheter ?");
+			String nomProduit = scan.nextLine();
+			String[] vendeursProduit = controlAcheterProduit.vendeursProduit(nomProduit);
+			if(vendeursProduit.length == 0) {
+				System.out.println("Aucun vendeur ne propose ce produit");
+			}
+			else {
+				System.out.println("Les vendeurs qui proposent ce produit sont :\n");
+				for(int i = 0; i>vendeursProduit.length; i++) {
+					System.out.println(vendeursProduit[i]);
+					System.out.println("\n");
+				}
+				System.out.println("Choix :");
+				String vendeurChoisi = scan.nextLine();
+				System.out.println("Quel quantite voulez vous acheter ?");
+				int quantite = scan.nextInt();
+				controlAcheterProduit.acheterProduit(quantite, vendeurChoisi);
+			}
+		}
+	}
+}
